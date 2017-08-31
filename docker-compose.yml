@@ -1,0 +1,33 @@
+version: '2'
+services:
+    drone-server:
+        build:
+            context: .
+            dockerfile: Dockerfile.server
+        restart: unless-stopped
+        volumes:
+            - ./data:/var/lib/drone/:rw
+        environment:
+            - DRONE_ADMIN={ADMIN}
+            - DRONE_OPEN=true
+            - DRONE_HOST={HOST}
+            - DRONE_CODING=true
+            - DRONE_CODING_CLIENT={XXX}
+            - DRONE_CODING_SECRET={YYY}
+            - DRONE_CODING_URL=https://coding.net
+            - DRONE_CODING_GIT_MACHINE=git.coding.net
+            - DRONE_SECRET={ZZZ}
+        ports:
+            - 1996:8000
+    drone-agent:
+        build:
+            context: .
+            dockerfile: Dockerfile.agent
+        restart: unless-stopped
+        depends_on: [ drone-server ]
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        environment:
+            - DRONE_DEBUG=true
+            - DRONE_SERVER=drone-server:9000
+            - DRONE_SECRET={ZZZ}

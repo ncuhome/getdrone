@@ -1,0 +1,8 @@
+# docker build --rm -t drone/drone-agent -f Dockerfile.agent .
+
+FROM debian:8
+COPY ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+ENV GODEBUG=netdns=go
+ADD release/drone-agent /bin/
+
+ENTRYPOINT ["/bin/drone-agent"]
