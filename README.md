@@ -2,6 +2,14 @@
 
 基于最新的 Drone 0.8 构建，支持 Coding。
 
+## 如何配置和运行
+
+修改 `docker-compose.yml` 中相应的占位符内容，使用 `docker-compose` 运行。
+
+参考：
+- http://docs.drone.io/installation/
+- http://docs.drone.io/release-0.8.0
+
 ## 如何管理密码/密钥
 
 ### 以 SSH 插件为例
@@ -59,6 +67,23 @@ rebuild-cache:
         - /tmp/cache:/cache
 ```
 
-## 如何在容器中运行Docker
+## 如何在Docker中运行Docker
 
-TODO
+在 Drone 项目的 `Settings` 页面，设置 `Trusted` 为选中状态（仅管理员可操作）。
+
+```yaml
+docker:
+    image: docker
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+        - docker version
+        - docker ps
+```
+
+PS: 限制较多，不支持挂载容器中的目录作为数据卷。
+
+## 如何构建此项目
+
+参考 https://github.com/drone/drone 源码中的 `.drone.sh` 脚本，
+手动 build 出 release 目录下两个可执行文件。
