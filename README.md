@@ -87,3 +87,8 @@ PS: 限制较多，不支持挂载容器中的目录作为数据卷。
 
 参考 https://github.com/drone/drone 源码中的 `.drone.sh` 脚本，
 手动 build 出 release 目录下两个可执行文件。
+
+
+## 注意事项
+
+1. Secrets里面加的ssh_key必须是本地的私钥（别写成服务器的私钥了）
